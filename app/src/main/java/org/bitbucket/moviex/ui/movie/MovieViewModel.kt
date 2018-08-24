@@ -19,11 +19,11 @@ class MovieViewModel @Inject constructor(private val movieRepository: MovieRepos
     private var movieLiveData = MutableLiveData<Data<Result<Movie>>>()
 
     fun getTrending(
-            apiKey: String,
             mediaType: String,
-            timeWindow: String
+            timeWindow: String,
+            apiKey: String
     ): MutableLiveData<Data<Result<Movie>>> {
-        compositeDisposable.add(movieRepository.getTrending(apiKey, mediaType, timeWindow)
+        compositeDisposable.add(movieRepository.getTrending(mediaType, timeWindow, apiKey)
                 .doOnSubscribe {
                     movieLiveData.postValue(Data(dataState = DataState.LOADING, data = movieLiveData.value?.data))
                 }

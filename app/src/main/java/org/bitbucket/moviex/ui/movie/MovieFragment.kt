@@ -1,6 +1,7 @@
 package org.bitbucket.moviex.ui.movie
 
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.movie_fragment.*
 import org.bitbucket.moviex.R
@@ -8,6 +9,7 @@ import org.bitbucket.moviex.adapter.MovieAdapter
 import org.bitbucket.moviex.databinding.MovieFragmentBinding
 import org.bitbucket.moviex.ui.base.BaseFragment
 import org.bitbucket.moviex.utils.ViewModelFactory
+import org.bitbucket.moviex.utils.extensions.DataState
 import org.bitbucket.moviex.utils.extensions.getAppInjector
 import org.bitbucket.moviex.utils.extensions.getViewModel
 import javax.inject.Inject
@@ -45,6 +47,17 @@ class MovieFragment : BaseFragment<MovieFragmentBinding>() {
 
         val gridLayoutManager = GridLayoutManager(context, 2)
         this.rvMovieList.layoutManager = gridLayoutManager
+    }
+
+    override fun configureBehavior() {
+        this.mMovieViewModel.getTrending("movie", "day", "12bc7d66c68d1cfad629138b2f2b46e2")
+                .apply {
+                    observe(this@MovieFragment, Observer {
+                        if (it.dataState == DataState.SUCCESS) {
+                            mMovieAdapter.setMovies(it.data!!.results)
+                        }
+                    })
+                }
     }
 
 }

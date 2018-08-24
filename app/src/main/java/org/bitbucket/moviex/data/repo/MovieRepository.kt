@@ -16,11 +16,11 @@ import javax.inject.Singleton
 class MovieRepository @Inject constructor(private val movieApi: MovieApi) {
 
     fun getTrending(
-            apiKey: String,
             mediaType: String,
-            timeWindow: String
+            timeWindow: String,
+            apiKey: String
     ): Observable<Result<Movie>> =
-            movieApi.getTrending(apiKey, mediaType, timeWindow)
+            movieApi.getTrending(mediaType, timeWindow, apiKey)
                     .doOnNext { Timber.d(it.results.toString()) }
                     .doOnError { Timber.e(it) }
 

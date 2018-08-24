@@ -7,6 +7,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.bitbucket.moviex.BuildConfig
 import org.bitbucket.moviex.data.remote.MovieApi
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -18,7 +19,7 @@ import javax.inject.Singleton
 @Module
 class NetworkModule {
 
-    private val BASE_URL = "https://api.themoviedb.org/3"
+    private val BASE_URL = "https://api.themoviedb.org/3/"
     private val CONNECT_TIMEOUT = 10L
     private val READ_TIMEOUT = 10L
     private val WRITE_TIMEOUT = 10L
@@ -45,6 +46,7 @@ class NetworkModule {
                 .baseUrl(BASE_URL)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
     }
 

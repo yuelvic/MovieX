@@ -13,11 +13,11 @@ import retrofit2.http.Query
 
 interface MovieApi {
 
-    @GET("/trending/{media_type}/{time_window}")
+    @GET("trending/{media_type}/{time_window}")
     fun getTrending(
-            @Query("api_key") apiKey: String,
             @Path("media_type") mediaType: String,
-            @Path("time_window") timeWindow: String
+            @Path("time_window") timeWindow: String,
+            @Query("api_key") apiKey: String
     ): Observable<Result<Movie>>
 
 }
