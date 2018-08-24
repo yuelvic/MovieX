@@ -22,6 +22,10 @@ allprojects {
     }
 }
 
+ext {
+    retrofitVersion = "2.4.0"
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
