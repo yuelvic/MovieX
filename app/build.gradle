@@ -67,6 +67,7 @@ dependencies {
     implementation "com.jakewharton.timber:timber:$timber_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$logger_version"
 
-    // UI
-    implementation "me.zhanghai.android.materialratingbar:library:$ratebar_version"
+    // Image
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
 }

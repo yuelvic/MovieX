@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MovieX</string>
+
+    <string name="movie_header">Most Popular Movies</string>
 </resources>
