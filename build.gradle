@@ -31,6 +31,8 @@ ext {
     rxandroid_version = "2.1.0"
     rxadapter_version = "2.4.0"
     extlifecycle_version = "2.0.0-rc01"
+    room_version = "2.0.0-rc01"
+    anko_version = "0.10.5"
     glide_version = "4.8.0"
 }
 

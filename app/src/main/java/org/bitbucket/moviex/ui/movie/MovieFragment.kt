@@ -53,8 +53,8 @@ class MovieFragment : BaseFragment<MovieFragmentBinding>() {
         this.mMovieViewModel.getTrending("movie", "day", "12bc7d66c68d1cfad629138b2f2b46e2")
                 .apply {
                     observe(this@MovieFragment, Observer {
-                        if (it.dataState == DataState.SUCCESS) {
-                            mMovieAdapter.setMovies(it.data!!.results)
+                        if (it.dataState != DataState.LOADING && it.data != null) {
+                            mMovieAdapter.setMovies(it.data.results)
                         }
                     })
                 }

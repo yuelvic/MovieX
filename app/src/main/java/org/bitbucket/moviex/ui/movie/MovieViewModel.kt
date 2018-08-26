@@ -8,6 +8,7 @@ import org.bitbucket.moviex.ui.base.BaseViewModel
 import org.bitbucket.moviex.utils.extensions.Data
 import org.bitbucket.moviex.utils.extensions.DataState
 import org.bitbucket.moviex.utils.extensions.performOnMain
+import org.jetbrains.anko.doAsync
 import javax.inject.Inject
 
 /**
@@ -30,8 +31,14 @@ class MovieViewModel @Inject constructor(private val movieRepository: MovieRepos
                 .performOnMain()
                 .subscribe({
                     movieLiveData.postValue(Data(dataState = DataState.SUCCESS, data = it))
+                    movieRepository.insertMoviesToDb(it.results)
                 }, {
-                    movieLiveData.postValue(Data(dataState = DataState.ERROR, data = movieLiveData.value?.data))
+                    doAsync {
+                        val result = Result<Movie>()
+                        result.page = 1
+                        result.results = movieRepository.getMoviesFromDb()
+                        movieLiveData.postValue(Data(dataState = DataState.ERROR, data = result))
+                    }
                 })
         )
         return this.movieLiveData

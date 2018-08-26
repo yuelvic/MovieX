@@ -4,6 +4,7 @@ import android.app.Application
 import io.reactivex.plugins.RxJavaPlugins
 import org.bitbucket.moviex.di.DaggerInjector
 import org.bitbucket.moviex.di.Injector
+import org.bitbucket.moviex.di.modules.AppModule
 import timber.log.Timber
 
 class App: Application() {
@@ -23,6 +24,7 @@ class App: Application() {
 
     private fun initDagger() {
         this.injector = DaggerInjector.builder()
+                .appModule(AppModule(this))
                 .build()
     }
 
