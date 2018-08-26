@@ -21,10 +21,30 @@ class MovieViewModel @Inject constructor(private val movieRepository: MovieRepos
 
     fun getTrending(
             mediaType: String,
-            timeWindow: String,
-            apiKey: String
+            timeWindow: String
     ): MutableLiveData<Data<Result<Movie>>> {
-        compositeDisposable.add(movieRepository.getTrending(mediaType, timeWindow, apiKey)
+        compositeDisposable.add(movieRepository.getTrending(mediaType, timeWindow)
+                .doOnSubscribe {
+                    movieLiveData.postValue(Data(dataState = DataState.LOADING, data = movieLiveData.value?.data))
+                }
+                .performOnMain()
+                .subscribe({
+                    movieLiveData.postValue(Data(dataState = DataState.SUCCESS, data = it))
+                    movieRepository.insertMoviesToDb(it.results)
+                }, {
+                    doAsync {
+                        val result = Result<Movie>()
+                        result.page = 1
+                        result.results = movieRepository.getMoviesFromDb()
+                        movieLiveData.postValue(Data(dataState = DataState.ERROR, data = result))
+                    }
+                })
+        )
+        return this.movieLiveData
+    }
+
+    fun getPopular(): MutableLiveData<Data<Result<Movie>>> {
+        compositeDisposable.add(movieRepository.getPopular()
                 .doOnSubscribe {
                     movieLiveData.postValue(Data(dataState = DataState.LOADING, data = movieLiveData.value?.data))
                 }

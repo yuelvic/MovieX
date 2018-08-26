@@ -22,17 +22,18 @@ class MovieRepository @Inject constructor(
 
     fun getTrending(
             mediaType: String,
-            timeWindow: String,
-            apiKey: String
+            timeWindow: String
     ): Observable<Result<Movie>> =
-            movieApi.getTrending(mediaType, timeWindow, apiKey)
+            movieApi.getTrending(mediaType, timeWindow)
                     .doOnNext { Timber.d(it.results.toString()) }
                     .doOnError { Timber.e(it) }
 
-    fun getMoviesFromDb(): List<Movie> {
-        Timber.d(movieDao.getMovies().toString())
-        return movieDao.getMovies()
-    }
+    fun getPopular(): Observable<Result<Movie>> =
+        movieApi.getPopular()
+                .doOnNext { Timber.d(it.results.toString()) }
+                .doOnError { Timber.e(it) }
+
+    fun getMoviesFromDb(): List<Movie> = movieDao.getMovies()
 
     fun insertMoviesToDb(movies: List<Movie>) {
         doAsync { movieDao.insert(movies) }

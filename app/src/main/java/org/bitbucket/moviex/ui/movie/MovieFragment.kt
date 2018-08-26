@@ -50,7 +50,7 @@ class MovieFragment : BaseFragment<MovieFragmentBinding>() {
     }
 
     override fun configureBehavior() {
-        this.mMovieViewModel.getTrending("movie", "day", "12bc7d66c68d1cfad629138b2f2b46e2")
+        this.mMovieViewModel.getPopular()
                 .apply {
                     observe(this@MovieFragment, Observer {
                         if (it.dataState != DataState.LOADING && it.data != null) {

@@ -20,6 +20,7 @@ import javax.inject.Singleton
 class NetworkModule {
 
     private val BASE_URL = "https://api.themoviedb.org/3/"
+    private val API_KEY_V3 = "12bc7d66c68d1cfad629138b2f2b46e2"
     private val CONNECT_TIMEOUT = 10L
     private val READ_TIMEOUT = 10L
     private val WRITE_TIMEOUT = 10L
@@ -36,6 +37,12 @@ class NetworkModule {
         clientBuilder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
         clientBuilder.writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
         clientBuilder.readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+        clientBuilder.addInterceptor {
+            var request = it.request()
+            val url = request.url().newBuilder().addQueryParameter("api_key", API_KEY_V3).build()
+            request = request.newBuilder().url(url).build()
+            return@addInterceptor it.proceed(request)
+        }
         return clientBuilder.build()
     }
 
