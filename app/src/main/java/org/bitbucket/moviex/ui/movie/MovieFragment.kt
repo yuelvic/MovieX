@@ -19,6 +19,7 @@ class MovieFragment : BaseFragment<MovieFragmentBinding>() {
     @Inject
     lateinit var mViewModelFactory: ViewModelFactory
     private lateinit var mMovieViewModel: MovieViewModel
+    private lateinit var mBinding: MovieFragmentBinding
 
     private lateinit var mMovieAdapter: MovieAdapter
 
@@ -38,7 +39,7 @@ class MovieFragment : BaseFragment<MovieFragmentBinding>() {
     }
 
     override fun passDataBinding(binding: MovieFragmentBinding) {
-
+        this.mBinding = binding
     }
 
     override fun configureUI(view: View) {
@@ -53,11 +54,17 @@ class MovieFragment : BaseFragment<MovieFragmentBinding>() {
         this.mMovieViewModel.getPopular()
                 .apply {
                     observe(this@MovieFragment, Observer {
+                        this@MovieFragment.mBinding.state = it.dataState
                         if (it.dataState != DataState.LOADING && it.data != null) {
                             mMovieAdapter.setMovies(it.data.results)
+                            this@MovieFragment.srMovieRefresh.isRefreshing = false
                         }
                     })
                 }
+
+        this.srMovieRefresh.setOnRefreshListener {
+            this.mMovieViewModel.getPopular()
+        }
     }
 
 }

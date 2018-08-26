@@ -4,7 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data></data>
+    <data>
+        <import type="android.view.View"/>
+        <import type="org.bitbucket.moviex.utils.extensions.DataState"/>
+        <variable
+            name="state"
+            type="org.bitbucket.moviex.utils.extensions.DataState"/>
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -23,15 +29,32 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Most Popular Movies" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvMovieList"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/srMovieRefresh"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvMovieTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/tvMovieTitle">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMovieList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <ProgressBar
+            android:id="@+id/pbMovieLoader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{state == DataState.LOADING ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
