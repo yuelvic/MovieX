@@ -28,8 +28,8 @@ class MovieRepository @Inject constructor(
                     .doOnNext { Timber.d(it.results.toString()) }
                     .doOnError { Timber.e(it) }
 
-    fun getPopular(): Observable<Result<Movie>> =
-        movieApi.getPopular()
+    fun getPopular(page: Int): Observable<Result<Movie>> =
+        movieApi.getPopular(page)
                 .doOnNext { Timber.d(it.results.toString()) }
                 .doOnError { Timber.e(it) }
 

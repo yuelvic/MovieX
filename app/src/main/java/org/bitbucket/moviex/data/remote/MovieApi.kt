@@ -5,6 +5,7 @@ import org.bitbucket.moviex.data.entities.Movie
 import org.bitbucket.moviex.data.entities.Result
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 /**
  * Created by Emmanuel Victor Garcia
@@ -19,6 +20,6 @@ interface MovieApi {
     ): Observable<Result<Movie>>
 
     @GET("movie/popular")
-    fun getPopular(): Observable<Result<Movie>>
+    fun getPopular(@Query("page") page: Int): Observable<Result<Movie>>
 
 }

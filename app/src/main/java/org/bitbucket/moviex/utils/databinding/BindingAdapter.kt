@@ -21,6 +21,6 @@ fun setRating(ratingBar: RatingBar, rating: Float) {
 @BindingAdapter("data")
 fun setData(recyclerView: RecyclerView, dataSet: List<Movie>?) {
     if (recyclerView.adapter is MovieAdapter) {
-        (recyclerView.adapter as MovieAdapter).setMovies(dataSet)
+        (recyclerView.adapter as MovieAdapter).addMovies(dataSet)
     }
 }

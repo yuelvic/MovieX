@@ -9,6 +9,7 @@ import org.bitbucket.moviex.utils.extensions.Data
 import org.bitbucket.moviex.utils.extensions.DataState
 import org.bitbucket.moviex.utils.extensions.performOnMain
 import org.jetbrains.anko.doAsync
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -19,34 +20,11 @@ class MovieViewModel @Inject constructor(private val movieRepository: MovieRepos
 
     private var movieLiveData = MutableLiveData<Data<Result<Movie>>>()
 
-    fun getTrending(
-            mediaType: String,
-            timeWindow: String
-    ): MutableLiveData<Data<Result<Movie>>> {
-        compositeDisposable.add(movieRepository.getTrending(mediaType, timeWindow)
+    fun getPopular(page: Int): MutableLiveData<Data<Result<Movie>>> {
+        Timber.d(page.toString())
+        compositeDisposable.add(movieRepository.getPopular(page)
                 .doOnSubscribe {
-                    movieLiveData.postValue(Data(dataState = DataState.LOADING, data = movieLiveData.value?.data))
-                }
-                .performOnMain()
-                .subscribe({
-                    movieLiveData.postValue(Data(dataState = DataState.SUCCESS, data = it))
-                    movieRepository.insertMoviesToDb(it.results)
-                }, {
-                    doAsync {
-                        val result = Result<Movie>()
-                        result.page = 1
-                        result.results = movieRepository.getMoviesFromDb()
-                        movieLiveData.postValue(Data(dataState = DataState.ERROR, data = result))
-                    }
-                })
-        )
-        return this.movieLiveData
-    }
-
-    fun getPopular(): MutableLiveData<Data<Result<Movie>>> {
-        compositeDisposable.add(movieRepository.getPopular()
-                .doOnSubscribe {
-                    movieLiveData.postValue(Data(dataState = DataState.LOADING, data = movieLiveData.value?.data))
+                    movieLiveData.postValue(Data(dataState = DataState.LOADING, data = null))
                 }
                 .performOnMain()
                 .subscribe({
