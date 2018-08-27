@@ -18,6 +18,8 @@ abstract class BaseFragment<T: ViewDataBinding>: Fragment() {
     protected abstract fun passDataBinding(binding: T)
     open fun configureUI(view: View) {}
     open fun configureBehavior() {}
+    open fun configureEvent() {}
+    open fun releaseEvent() {}
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding: T = DataBindingUtil.inflate(inflater, configureLayout(), container, false)
@@ -30,5 +32,15 @@ abstract class BaseFragment<T: ViewDataBinding>: Fragment() {
         configureViewModel()
         configureUI(view)
         configureBehavior()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        configureEvent()
+    }
+
+    override fun onPause() {
+        releaseEvent()
+        super.onPause()
     }
 }

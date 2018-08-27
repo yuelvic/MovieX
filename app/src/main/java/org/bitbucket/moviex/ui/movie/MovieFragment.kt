@@ -4,6 +4,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.xrojan.rxbus.RxBus
 import kotlinx.android.synthetic.main.movie_fragment.*
 import org.bitbucket.moviex.R
 import org.bitbucket.moviex.adapter.MovieAdapter
@@ -13,6 +14,7 @@ import org.bitbucket.moviex.utils.ViewModelFactory
 import org.bitbucket.moviex.utils.extensions.DataState
 import org.bitbucket.moviex.utils.extensions.getAppInjector
 import org.bitbucket.moviex.utils.extensions.getViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 class MovieFragment : BaseFragment<MovieFragmentBinding>() {
@@ -26,6 +28,7 @@ class MovieFragment : BaseFragment<MovieFragmentBinding>() {
 
     private var isLoading = false
     private var page = 1
+    private var isSearching = false
 
     companion object {
         fun newInstance() = MovieFragment()
@@ -59,7 +62,7 @@ class MovieFragment : BaseFragment<MovieFragmentBinding>() {
                 val totalItemCount = gridLayoutManager.itemCount
                 val pastVisibleItems = gridLayoutManager.findFirstVisibleItemPosition()
 
-                if (visibleItemCount + pastVisibleItems >= totalItemCount && !isLoading) {
+                if (visibleItemCount + pastVisibleItems >= totalItemCount && !isLoading && !isSearching) {
                     this@MovieFragment.mMovieViewModel.getPopular(++page)
                     this@MovieFragment.isLoading = true
                 }
@@ -84,6 +87,18 @@ class MovieFragment : BaseFragment<MovieFragmentBinding>() {
             this.mMovieViewModel.getPopular(page = 1)
             this@MovieFragment.isLoading = false
         }
+    }
+
+    override fun configureEvent() {
+        RxBus.subscribe<String>(this) {
+            this.isSearching = !it.isEmpty()
+            this.mMovieAdapter.clear()
+            this.mMovieViewModel.getMoviesFromDb(it)
+        }
+    }
+
+    override fun releaseEvent() {
+        RxBus.unsubscribe(this)
     }
 
 }

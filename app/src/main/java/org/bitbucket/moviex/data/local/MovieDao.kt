@@ -10,6 +10,9 @@ interface MovieDao: BaseDao<Movie> {
     @Query("SELECT * FROM movie")
     fun getMovies(): List<Movie>
 
+    @Query("SELECT * FROM movie WHERE title LIKE :query")
+    fun getMovies(query: String): List<Movie>
+
     @Query("SELECT * FROM movie WHERE id = :id")
     fun getMovieById(id: Int): Movie
 

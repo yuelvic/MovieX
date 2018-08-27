@@ -21,7 +21,6 @@ class MovieViewModel @Inject constructor(private val movieRepository: MovieRepos
     private var movieLiveData = MutableLiveData<Data<Result<Movie>>>()
 
     fun getPopular(page: Int): MutableLiveData<Data<Result<Movie>>> {
-        Timber.d(page.toString())
         compositeDisposable.add(movieRepository.getPopular(page)
                 .doOnSubscribe {
                     movieLiveData.postValue(Data(dataState = DataState.LOADING, data = null))
@@ -31,15 +30,20 @@ class MovieViewModel @Inject constructor(private val movieRepository: MovieRepos
                     movieLiveData.postValue(Data(dataState = DataState.SUCCESS, data = it))
                     movieRepository.insertMoviesToDb(it.results)
                 }, {
-                    doAsync {
-                        val result = Result<Movie>()
-                        result.page = 1
-                        result.results = movieRepository.getMoviesFromDb()
-                        movieLiveData.postValue(Data(dataState = DataState.ERROR, data = result))
-                    }
+                    getMoviesFromDb("")
                 })
         )
         return this.movieLiveData
+    }
+
+    fun getMoviesFromDb(query: String) {
+        doAsync {
+            val result = Result<Movie>()
+            result.page = 1
+            result.results = movieRepository.getMoviesFromDb("%$query%")
+            Timber.d(result.results.toString())
+            movieLiveData.postValue(Data(dataState = DataState.SUCCESS, data = result))
+        }
     }
 
 }

@@ -35,6 +35,8 @@ class MovieRepository @Inject constructor(
 
     fun getMoviesFromDb(): List<Movie> = movieDao.getMovies()
 
+    fun getMoviesFromDb(query: String): List<Movie> = movieDao.getMovies(query)
+
     fun insertMoviesToDb(movies: List<Movie>) {
         doAsync { movieDao.insert(movies) }
     }
