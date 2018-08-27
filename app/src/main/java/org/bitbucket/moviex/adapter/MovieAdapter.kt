@@ -33,10 +33,12 @@ class MovieAdapter(val context: Context): RecyclerView.Adapter<MovieAdapter.View
         }
     }
 
-    fun setMovies(dataSet: List<Movie>) {
-        this.dataSet.clear()
-        this.dataSet.addAll(dataSet)
-        this.notifyDataSetChanged()
+    fun setMovies(dataSet: List<Movie>?) {
+        if (dataSet != null) {
+            this.dataSet.clear()
+            this.dataSet.addAll(dataSet)
+            this.notifyDataSetChanged()
+        }
     }
 
     class ViewHolder(private val binding: ItemMovieBinding):

@@ -54,9 +54,8 @@ class MovieFragment : BaseFragment<MovieFragmentBinding>() {
         this.mMovieViewModel.getPopular()
                 .apply {
                     observe(this@MovieFragment, Observer {
-                        this@MovieFragment.mBinding.state = it.dataState
-                        if (it.dataState != DataState.LOADING && it.data != null) {
-                            mMovieAdapter.setMovies(it.data.results)
+                        this@MovieFragment.mBinding.data = it
+                        if (it.dataState != DataState.LOADING) {
                             this@MovieFragment.srMovieRefresh.isRefreshing = false
                         }
                     })

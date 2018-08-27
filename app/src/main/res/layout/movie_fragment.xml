@@ -8,8 +8,10 @@
         <import type="android.view.View"/>
         <import type="org.bitbucket.moviex.utils.extensions.DataState"/>
         <variable
-            name="state"
-            type="org.bitbucket.moviex.utils.extensions.DataState"/>
+            name="data"
+            type="org.bitbucket.moviex.utils.extensions.Data&lt;
+            org.bitbucket.moviex.data.entities.Result&lt;
+            org.bitbucket.moviex.data.entities.Movie>>"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,7 +44,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvMovieList"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                app:data="@{data.data.results}"/>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -50,8 +53,23 @@
             android:id="@+id/pbMovieLoader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{state == DataState.LOADING ? View.VISIBLE : View.GONE}"
+            android:visibility="@{data.dataState == DataState.LOADING ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/data_empty"
+            android:textColor="@android:color/white"
+            android:visibility="@{data.dataState != DataState.LOADING &amp;&amp; data.data.results.size &lt;= 0 ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/srMovieRefresh"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
