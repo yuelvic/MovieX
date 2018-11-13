@@ -15,3 +15,6 @@ This demo project uses [TMDB](https://www.themoviedb.org/) as a remote data sour
 * [Timber](https://github.com/JakeWharton/timber)
 * [Glide](https://github.com/bumptech/glide)
 * [RxBus](https://github.com/joshuadeguzman/RxBus)
+
+### Author:
+[Emmanuel Victor Garcia](https://yuelvic.github.io)
