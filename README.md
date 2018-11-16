@@ -17,7 +17,7 @@ This demo project uses [TMDB](https://www.themoviedb.org/) as a remote data sour
 * [RxBus](https://github.com/joshuadeguzman/RxBus)
 
 ### Author:
-[Emmanuel Victor Garcia](https://yuelvic.github.io)
+Made by [Emmanuel Victor Garcia](https://yuelvic.github.io)
 
 ## License
 ```
