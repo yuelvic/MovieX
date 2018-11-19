@@ -1,6 +1,6 @@
 ## MovieX
 
-This demo project uses [TMDB](https://www.themoviedb.org/) as a remote data source and loads the current popular movies. It is written using the MVVM pattern which adapts the new [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/).
+This demo project uses [TMDB](https://www.themoviedb.org/) as its remote data source and loads the current popular movies. It is written using the MVVM pattern which adapts the new [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/).
 
 ### Requirements:
 * [Android Studio 3.2](https://developer.android.com/studio/preview/)
