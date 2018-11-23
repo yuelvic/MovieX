@@ -17,7 +17,7 @@ This demo project uses [TMDB](https://www.themoviedb.org/) as its remote data so
 * [RxBus](https://github.com/joshuadeguzman/RxBus)
 
 ### Author:
-Made by [Emmanuel Victor Garcia](https://yuelvic.github.io)
+[Emmanuel Victor Garcia](https://yuelvic.github.io)
 
 ## License
 ```
